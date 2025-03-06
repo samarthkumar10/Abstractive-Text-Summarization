@@ -2,11 +2,11 @@ import streamlit as st
 import torch
 import os
 from transformers import T5Tokenizer, T5ForConditionalGeneration
+import sentencepiece
 
 device = torch.device('cpu')
 model_save_path = 'summarization_model.sav'
 
-# Load model and tokenizer
 @st.cache_resource
 def load_model():
     tokenizer = T5Tokenizer.from_pretrained('t5-base')
@@ -24,18 +24,17 @@ def load_model():
 
 model, tokenizer = load_model()
 
-# Streamlit UI
 st.title("📝 Abstractive Text Summarizer")
 st.write("Paste any text below, and I'll summarize it for you using a T5 model.")
 
 text_input = st.text_area("Enter the text to summarize:", height=300)
 
 if st.button("Summarize"):
-    if text_input.strip() == "":
+    if not text_input.strip():
         st.warning("Please enter some text to summarize.")
     else:
         with st.spinner("Summarizing..."):
-            preprocessed_text = text_input.strip().replace('\n', '')
+            preprocessed_text = text_input.strip().replace('\n', ' ')
             t5_input_text = "summarize: " + preprocessed_text
 
             tokenized_text = tokenizer.encode(
