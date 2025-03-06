@@ -14,9 +14,9 @@ def load_model():
 
     if os.path.exists(model_save_path):
         model.load_state_dict(torch.load(model_save_path, map_location=device))
-        print("✅ Loaded saved model weights from:", model_save_path)
+        print("Loaded saved model weights from:", model_save_path)
     else:
-        print("⚠️ Saved model not found. Using fresh 't5-base' model.")
+        print("Saved model not found. Using fresh 't5-base' model.")
 
     model.to(device)
     model.eval()
@@ -25,7 +25,7 @@ def load_model():
 model, tokenizer = load_model()
 
 st.title("📝 Abstractive Text Summarizer")
-st.write("Paste any text below, and I'll summarize it for you using a T5 model.")
+st.write("Summarize any text you like using a T5 model.")
 
 text_input = st.text_area("Enter the text to summarize:", height=300)
 
